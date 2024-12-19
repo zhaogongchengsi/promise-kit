@@ -1,0 +1,20 @@
+{
+  "name": "promise-kit",
+  "version": "0.0.0",
+  "description": "Some promise extension functions",
+  "main": "index.js",
+  "scripts": {
+    "build": "unbuild",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp && npm publish --access=public"
+  },
+  
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.7.2",
+    "unbuild": "^3.0.1",
+    "vitest": "^2.1.8"
+  }
+}
