@@ -34,8 +34,8 @@ const result = await promise;
 ### `forEach`
 
 ```typescript
-const result = await forEach([1, 2, 3], async (item) => {
-  return item + 1;
+await forEach([1, 2, 3], async (item) => {
+  item + 1;
 });
 ```
 
