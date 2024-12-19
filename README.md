@@ -59,6 +59,12 @@ await parallel([1,2,3], async () => {}, 2);
 await sleep(1000);
 ```
 
+### `randomSleep`
+
+```typescript
+await randomSleep(1000, 2000);
+```
+
 ## License
 
 [MIT](./LICENSE) License © 2023-PRESENT [zhaozunhong](https://github.com/zhaozunhong)
