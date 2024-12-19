@@ -53,6 +53,12 @@ const result = await map([1, 2, 3], async (item) => {
 await parallel([1,2,3], async () => {}, 2);
 ```
 
+### `sleep`
+
+```typescript
+await sleep(1000);
+```
+
 ## License
 
 [MIT](./LICENSE) License © 2023-PRESENT [zhaozunhong](https://github.com/zhaozunhong)
