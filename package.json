@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "unbuild",
+    "dev": "vitest",
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish --access=public"
   },
