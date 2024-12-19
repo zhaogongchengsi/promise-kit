@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { forEach, map } from './array';
+import { forEach, map, parallel } from './array';
 
 describe('forEach', () => {
 	it('should call the callback function for each element in the array', async () => {
@@ -41,5 +41,45 @@ describe('map', () => {
 		const result = await map(arr, callback);
 
 		expect(result).toEqual([2, 4, 6]);
+	});
+});
+
+
+describe('parallel', () => {
+	it('should process elements concurrently with the specified concurrency limit', async () => {
+		const arr = [1, 2, 3, 4, 5];
+		const callback = vi.fn(async (value: number) => value * 2);
+		const concurrency = 2;
+
+		const result = await parallel(arr, callback, concurrency);
+
+		expect(result).toEqual([2, 4, 6, 8, 10]);
+		expect(callback).toHaveBeenCalledTimes(5);
+	});
+
+	it('should handle asynchronous callback functions', async () => {
+		const arr = [1, 2, 3, 4, 5];
+		const callback = async (value: number) => value * 2;
+		const concurrency = 2;
+
+		const result = await parallel(arr, callback, concurrency);
+
+		expect(result).toEqual([2, 4, 6, 8, 10]);
+	});
+
+	it('should respect the concurrency limit', async () => {
+		const arr = [1, 2, 3, 4, 5];
+		const callback = vi.fn(async (value: number) => {
+			await new Promise(resolve => setTimeout(resolve, 100));
+			return value * 2;
+		});
+		const concurrency = 2;
+
+		const start = Date.now();
+		await parallel(arr, callback, concurrency);
+		const duration = Date.now() - start;
+
+		expect(duration).toBeGreaterThanOrEqual(200);
+		expect(callback).toHaveBeenCalledTimes(5);
 	});
 });
