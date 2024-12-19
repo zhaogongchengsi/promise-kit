@@ -31,6 +31,14 @@ resolve('success');
 const result = await promise;
 ```
 
+### `withRetry`
+
+```typescript
+await withRetry(async () => {
+  return 'success';
+}, 3, 1000);
+```
+
 ### `forEach`
 
 ```typescript

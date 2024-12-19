@@ -47,4 +47,26 @@ export function withResolvers<T>(): PromiseWithResolvers<T> {
 
 	return { resolve, reject, promise };
 }
-
+/**
+ * Retries a promise-returning function a specified number of times if it fails.
+ *
+ * @template T - The type of the value that the promise resolves to.
+ * @param {() => Promise<T>} fn - The promise-returning function to retry.
+ * @param {number} retries - The number of times to retry the function.
+ * @returns {Promise<T>} A promise that resolves with the result of the function,
+ * or rejects with the last error encountered after all retries have been exhausted.
+ */
+export async function withRetry<T>(fn: () => Promise<T>, retries: number): Promise<T> {
+	let attempt = 0;
+	while (attempt < retries) {
+		try {
+			return await fn();
+		} catch (error) {
+			attempt++;
+			if (attempt >= retries) {
+				throw error;
+			}
+		}
+	}
+	throw new Error('Retries exhausted');
+}

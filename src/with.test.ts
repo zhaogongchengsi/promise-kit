@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { withTimeout, withResolvers } from './with';
+import { withTimeout, withResolvers, withRetry } from './with';
 
 describe('with', () => {
 	it('should resolve the promise if it completes before the timeout', async () => {
@@ -45,5 +45,40 @@ describe('with', () => {
 		const { reject, promise } = withResolvers<string>();
 		reject(new Error('failure'));
 		await expect(promise).rejects.toThrow('failure');
+	});
+
+	it('should retry the function if it fails and eventually succeed', async () => {
+		let attempts = 0;
+		const result = await withRetry(() => {
+			attempts++;
+			if (attempts < 3) {
+				return Promise.reject(new Error('failure'));
+			}
+			return Promise.resolve('success');
+		}, 3);
+		expect(result).toBe('success');
+		expect(attempts).toBe(3);
+	});
+
+	it('should throw an error if the function fails all retries', async () => {
+		let attempts = 0;
+		await expect(withRetry(() => {
+			attempts++;
+			return Promise.reject(new Error('failure'));
+		}, 3)).rejects.toThrow('failure');
+		expect(attempts).toBe(3);
+	});
+
+	it('should retry the function if it fails and eventually succeed after multiple attempts', async () => {
+		let attempts = 0;
+		const result = await withRetry(() => {
+			attempts++;
+			if (attempts < 5) {
+				return Promise.reject(new Error('failure'));
+			}
+			return Promise.resolve('success');
+		}, 5);
+		expect(result).toBe('success');
+		expect(attempts).toBe(5);
 	});
 });
