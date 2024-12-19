@@ -3,7 +3,9 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
 	entries: [
-		'./src/withTimeout.ts'
+		'./src/index.ts',
+		'./src/with.ts',
+		'./src/array.ts'
 	],
 	rollup: {
 		emitCJS: true,

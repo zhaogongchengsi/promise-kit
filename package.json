@@ -2,21 +2,49 @@
   "name": "promise-kit",
   "version": "0.0.0",
   "description": "Some promise extension functions",
-  "main": "index.js",
+  "main": "./dist/index.mjs",
+  "homepage": "https://github.com/zhaozunhong/promise-kit#readme",
+  "author": "zhaozunhong",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaozunhong/promise-kit.git"
+  },
+  "bugs": "https://github.com/zhaozunhong/promise-kit/issues",
   "scripts": {
     "build": "unbuild",
     "dev": "vitest",
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish --access=public"
   },
+  "sideEffects": false,
   "keywords": [
     "promise",
     "async",
     "await"
   ],
-  "author": "",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "dependencies": {
+    "bumpp": "^9.9.1",
     "typescript": "^5.7.2",
     "unbuild": "^3.0.1",
     "vitest": "^2.1.8"
