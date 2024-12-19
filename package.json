@@ -27,6 +27,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./with": {
+      "types": "./dist/with.d.ts",
+      "import": "./dist/with.mjs",
+      "require": "./dist/with.cjs"
+    },
+    "./array": {
+      "types": "./dist/array.d.ts",
+      "import": "./dist/array.mjs",
+      "require": "./dist/array.cjs"
     }
   },
   "module": "./dist/index.mjs",
@@ -36,6 +46,18 @@
       "*": [
         "./dist/*",
         "./dist/index.d.ts"
+      ]
+    },
+    "./with": {
+      "*": [
+        "./dist/with.*",
+        "./dist/with.d.ts"
+      ]
+    },
+    "./array": {
+      "*": [
+        "./dist/array.*",
+        "./dist/array.d.ts"
       ]
     }
   },
