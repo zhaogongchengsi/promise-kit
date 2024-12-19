@@ -9,7 +9,11 @@
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish --access=public"
   },
-  "keywords": [],
+  "keywords": [
+    "promise",
+    "async",
+    "await"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
