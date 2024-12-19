@@ -8,7 +8,6 @@
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish --access=public"
   },
-  
   "keywords": [],
   "author": "",
   "license": "MIT",
