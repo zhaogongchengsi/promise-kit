@@ -1,19 +1,20 @@
 import { withResolvers } from "./with";
 
-export type Actuator<T> = (ctx: T, index: number) => void
+export type Actuator<T, R> = (ctx: T, index: number) => R | Promise<R>
 
-class Task<T> {
+class Task<T, R> {
 	list: T[];
 	current: T | null = null
 	currentIndex: number = 0
-	private actuator: Actuator<T> | null = null
-
+	private actuator: Actuator<T, R> | null = null
 	private isCancel: boolean = false
 	private isPause: boolean = false
-	private continuePromise: PromiseWithResolvers<void> | null = null
-	private completePromise: PromiseWithResolvers<{success: number[], failure: number[]}>
 	private success: number[] = []
 	private failure: number[] = []
+	private results: R[] = []
+	private continuePromise: PromiseWithResolvers<void> | null = null
+	private completePromise: PromiseWithResolvers<{ success: number[], failure: number[], results: R[] }>
+	private interruptedPromise: PromiseWithResolvers<void> | null = null
 
 	constructor(list: T[]) {
 		this.list = list;
@@ -23,6 +24,7 @@ class Task<T> {
 	pause() {
 		this.isPause = true
 		this.continuePromise = withResolvers()
+		this.interruptedPromise = withResolvers()
 	}
 
 	resume() {
@@ -30,7 +32,9 @@ class Task<T> {
 			return
 		}
 		this.isPause = false
+
 		const _run = () => this.run(this.actuator!)
+
 		if (this.continuePromise) {
 			this.continuePromise.promise.then(_run)
 			this.continuePromise.resolve()
@@ -38,6 +42,8 @@ class Task<T> {
 		} else {
 			_run()
 		}
+
+		this.interruptedPromise?.resolve()
 	}
 
 	cancel() {
@@ -49,7 +55,11 @@ class Task<T> {
 		return await this.completePromise.promise
 	}
 
-	async run(actuator: Actuator<T>): Promise<void> {
+	async waitResume() {
+		return await this.interruptedPromise?.promise
+	}
+
+	async run(actuator: Actuator<T, R>): Promise<void> {
 		this.actuator = actuator
 		let current = undefined
 		while (!this.isCancel && !this.isPause) {
@@ -63,9 +73,10 @@ class Task<T> {
 			}
 
 			try {
-				await Promise.resolve(actuator(current, this.currentIndex))
+				const result = await Promise.resolve(actuator(current, this.currentIndex))
+				this.results.push(result)
 				this.success.push(this.currentIndex)
-			} catch { 
+			} catch {
 				this.failure.push(this.currentIndex)
 			}
 		}
@@ -73,7 +84,8 @@ class Task<T> {
 		if (!this.isPause) {
 			this.completePromise.resolve({
 				success: this.success,
-				failure: this.failure
+				failure: this.failure,
+				results: this.results
 			})
 		}
 	}
