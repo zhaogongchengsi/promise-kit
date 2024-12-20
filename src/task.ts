@@ -6,15 +6,14 @@ class Task<T> {
 	list: T[];
 	current: T | null = null
 	currentIndex: number = 0
-	actuator: Actuator<T> | null = null
+	private actuator: Actuator<T> | null = null
 
 	private isCancel: boolean = false
 	private isPause: boolean = false
 	private continuePromise: PromiseWithResolvers<void> | null = null
 	private completePromise: PromiseWithResolvers<{success: number[], failure: number[]}>
-
-	success: number[] = []
-	failure: number[] = []
+	private success: number[] = []
+	private failure: number[] = []
 
 	constructor(list: T[]) {
 		this.list = list;
