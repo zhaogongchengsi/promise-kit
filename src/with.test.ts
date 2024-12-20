@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { withTimeout, withResolvers, withRetry } from './with';
+import { withTimeout, withResolvers, withRetry, withRry } from './with';
 
 describe('with', () => {
 	it('should resolve the promise if it completes before the timeout', async () => {
@@ -80,5 +80,23 @@ describe('with', () => {
 		}, 5);
 		expect(result).toBe('success');
 		expect(attempts).toBe(5);
+	});
+
+	it('should resolve with the function result', async () => {
+		const result = await withRry((a: number, b: number) => a + b, 1, 2);
+		expect(result).toBe(3);
+	});
+
+	it('should resolve with the promise result', async () => {
+		const result = await withRry((a: number, b: number) => Promise.resolve(a + b), 1, 2);
+		expect(result).toBe(3);
+	});
+
+	it('should throw an error if the function throws', async () => {
+		await expect(withRry(() => { throw new Error('failure'); })).rejects.toThrow('failure');
+	});
+
+	it('should throw an error if the promise is rejected', async () => {
+		await expect(withRry(() => Promise.reject(new Error('failure')))).rejects.toThrow('failure');
 	});
 });

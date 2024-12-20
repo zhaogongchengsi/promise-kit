@@ -70,3 +70,22 @@ export async function withRetry<T>(fn: () => Promise<T>, retries: number): Promi
 	}
 	throw new Error('Retries exhausted');
 }
+
+/**
+ * Executes a function that returns a value or a promise, and returns a promise that resolves with the function's result.
+ * If the function throws an error or the promise is rejected, the error is caught and rethrown.
+ *
+ * @template T - The type of the value returned by the function or the resolved value of the promise.
+ * @template A - The types of the arguments passed to the function.
+ * @param {(...args: A[]) => (T | Promise<T>)} fn - The function to be executed.
+ * @param {...A[]} args - The arguments to be passed to the function.
+ * @returns {Promise<T>} A promise that resolves with the result of the function or rejects with an error.
+ * @throws Will rethrow any error thrown by the function or any rejection from the promise.
+ */
+export async function withRry<T, A>(fn: (...args: A[]) => (T | Promise<T>), ...args: A[]): Promise<T> {
+	try {
+		return await Promise.resolve(fn(...args));
+	} catch (error) {
+		throw error;
+	}
+}
