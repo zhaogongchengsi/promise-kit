@@ -73,6 +73,22 @@ await sleep(1000);
 await randomSleep(1000, 2000);
 ```
 
+### `Task`
+
+```typescript
+const { run, waitComplete, pause, resume } = createTask([1,2,4])
+
+run(async (item) => {
+  return item + 1;
+})
+
+pause()
+
+resume()
+
+const result = await waitComplete()
+```
+
 ## License
 
 [MIT](./LICENSE) License © 2023-PRESENT [zhaozunhong](https://github.com/zhaozunhong)

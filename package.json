@@ -42,6 +42,11 @@
       "types": "./dist/sleep.d.ts",
       "import": "./dist/sleep.mjs",
       "require": "./dist/sleep.cjs"
+    },
+    "./task": {
+      "types": "./dist/task.d.ts",
+      "import": "./dist/task.mjs",
+      "require": "./dist/task.cjs"
     }
   },
   "module": "./dist/index.mjs",
@@ -69,6 +74,12 @@
       "*": [
         "./dist/sleep.*",
         "./dist/sleep.d.ts"
+      ]
+    },
+    "./task": {
+      "*": [
+        "./dist/task.*",
+        "./dist/task.d.ts"
       ]
     }
   },

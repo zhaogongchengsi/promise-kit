@@ -53,7 +53,7 @@ describe('createTask', () => {
 
 		expect(actuator).toHaveBeenCalledTimes(1);
 
-		task.continue();
+		task.resume();
 
 		await task.waitComplete();
 

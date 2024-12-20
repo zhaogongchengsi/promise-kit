@@ -26,7 +26,7 @@ class Task<T> {
 		this.continuePromise = withResolvers()
 	}
 
-	continue() {
+	resume() {
 		if (!this.isPause) {
 			return
 		}
@@ -43,7 +43,7 @@ class Task<T> {
 
 	cancel() {
 		this.isCancel = true
-		this.continue()
+		this.resume()
 	}
 
 	async waitComplete() {
@@ -68,10 +68,12 @@ class Task<T> {
 			}
 		}
 
-		this.completePromise.resolve({
-			success: this.success,
-			failure: this.failure
-		})
+		if (!this.isPause) {
+			this.completePromise.resolve({
+				success: this.success,
+				failure: this.failure
+			})
+		}
 	}
 }
 

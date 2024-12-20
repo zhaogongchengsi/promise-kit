@@ -6,7 +6,8 @@ export default defineBuildConfig({
 		'./src/index.ts',
 		'./src/with.ts',
 		'./src/array.ts',
-		'./src/sleep.ts'
+		'./src/sleep.ts',
+		'./src/task.ts',
 	],
 	rollup: {
 		emitCJS: true,
