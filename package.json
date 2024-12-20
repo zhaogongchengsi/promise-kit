@@ -1,6 +1,6 @@
 {
   "name": "@zunh/promise-kit",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Some promise extension functions",
   "main": "./dist/index.mjs",
   "homepage": "https://github.com/zhaozunhong/promise-kit#readme",
