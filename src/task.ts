@@ -91,6 +91,6 @@ class Task<T, R> {
 	}
 }
 
-export function createTask<T>(list: T[]) {
-	return new Task(list)
+export function createTask<T, R>(list: T[]) {
+	return new Task<T, R>(list)
 }
