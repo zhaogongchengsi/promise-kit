@@ -52,14 +52,17 @@ class Task<T> {
 
 	async run(actuator: Actuator<T>): Promise<void> {
 		this.actuator = actuator
-		const current = this.list[this.currentIndex]
-		this.current = current
-
+		let current = undefined
 		while (!this.isCancel && !this.isPause) {
+			current = this.list[this.currentIndex]
+			this.current = current
+
 			this.currentIndex++
+
 			if (this.currentIndex > this.list.length) {
 				break
 			}
+
 			try {
 				await Promise.resolve(actuator(current, this.currentIndex))
 				this.success.push(this.currentIndex)
