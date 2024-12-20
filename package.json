@@ -37,6 +37,11 @@
       "types": "./dist/array.d.ts",
       "import": "./dist/array.mjs",
       "require": "./dist/array.cjs"
+    },
+    "./sleep": {
+      "types": "./dist/sleep.d.ts",
+      "import": "./dist/sleep.mjs",
+      "require": "./dist/sleep.cjs"
     }
   },
   "module": "./dist/index.mjs",
@@ -58,6 +63,12 @@
       "*": [
         "./dist/array.*",
         "./dist/array.d.ts"
+      ]
+    },
+    "./sleep": {
+      "*": [
+        "./dist/sleep.*",
+        "./dist/sleep.d.ts"
       ]
     }
   },
